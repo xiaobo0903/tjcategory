@@ -14,6 +14,7 @@ import jieba.analyse
 
 logging.basicConfig(format='%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s', level=logging.DEBUG)
 word_table = {}
+wcloud_table = {}
 
 class TJSpliteWord():
 
@@ -21,6 +22,7 @@ class TJSpliteWord():
     #Stop word file path;
     wfile = "qiche.txt"
     swfile = "stopword.txt"
+    wcloud = "wordcloud.txt"
     
     
     def __init__(self):
@@ -37,18 +39,26 @@ class TJSpliteWord():
     def Loadword(self):
 
         f = open("./"+self.wfile, 'r')
-        i = 0
 
         for line in f.readlines():
 
             line = line.replace("\n", "").replace("\r", "")
-            i = i+1
             word_table[line] = line
             logging.debug("load text is :"+line)
 
         f.close()
-        print(len(word_table))
-        print(i)
+        #print(len(word_table))
+
+        f = open("./"+self.wcloud, 'r')
+
+        for line in f.readlines():
+
+            line = line.replace("\n", "").replace("\r", "")
+            wcloud_table[line] = 0
+            logging.debug("load text is :"+line)
+
+        f.close()         
+
         return
 
 #save car_word in file;
@@ -181,9 +191,25 @@ class TJSpliteWord():
  
 
         #ccdict = [ v for v in sorted(csdict.values())] 
-        ccdict = sorted(csdict.items(), key=lambda d: d[1], reverse=True) 
+        #ccdict = sorted(csdict.items(), key=lambda d: d[1], reverse=True) 
         
-        return json.dumps(ccdict, ensure_ascii=False)
+        #return json.dumps(ccdict, ensure_ascii=False)
+        return csdict
+
+    def WordCloud(self, cdict):
+         
+        tw = wcloud_table.copy()
+
+        for key,value in cdict.items():
+
+            if tw.get(key) == None:
+                continue
+            tw[key] = tw[key] + value
+
+        rtw = sorted(tw.items(), key=lambda d: d[1], reverse=True)
+
+        return json.dumps(rtw, ensure_ascii=False)
+         
 
 if __name__ == '__main__':
 

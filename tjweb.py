@@ -18,13 +18,14 @@ def predict():
 
     return response
 
-@app.route('/wcsort', methods=['POST'])
-def wcsort():
+@app.route('/wordcloud', methods=['POST'])
+def wordcloud():
 
     data = request.get_data()
-    result0 = tjspliteword.WordCount(data.decode("utf-8")) 
+    cdict = tjspliteword.WordCount(data.decode("utf-8")) 
+    result = tjspliteword.WordCloud(cdict) 
 
-    return result0
+    return result
 
     
 @app.route('/spliteword', methods=['POST'])
