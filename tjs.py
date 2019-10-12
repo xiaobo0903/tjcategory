@@ -1,4 +1,5 @@
 #encoding=utf-8
+
 import sys
 import re
 import codecs
@@ -27,12 +28,15 @@ def read_file_cut(p_path):
     #while num<=204:
 
     for f in dirs:
-        if f.split(".")[-1]=="txt":
+        print(f)
+
+        if f.split(".")[-1] !="txt":
            continue
 
+
         name = "%04d" % num 
-        fileName = path + str(f) + ".txt"
-        resName = respath + str(f) + ".txt"
+        fileName = path + str(f)
+        resName = respath + str(f)
         source = open(fileName, 'r')
         if os.path.exists(resName):
             os.remove(resName)
@@ -41,7 +45,7 @@ def read_file_cut(p_path):
         line = line.rstrip('\n')
         line = line.rstrip('\r')
         
-        while line!="":
+        while line:
             line = unicode(line, "utf-8")
             seglist = jieba.cut(line,cut_all=False)  #精确模式
             output = ''
