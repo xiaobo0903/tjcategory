@@ -33,7 +33,6 @@ def read_file_cut(p_path):
         if f.split(".")[-1] !="txt":
            continue
 
-
         name = "%04d" % num 
         fileName = path + str(f)
         resName = respath + str(f)
@@ -46,7 +45,7 @@ def read_file_cut(p_path):
         line = line.rstrip('\r')
         
         while line:
-            line = unicode(line, "utf-8")
+            #line = str(line, "utf-8")
             seglist = jieba.cut(line,cut_all=False)  #精确模式
             output = ''
             for letter in seglist:
@@ -58,7 +57,8 @@ def read_file_cut(p_path):
                 output = output+" "+letter
             #output = ' '.join(list(seglist))         #空格拼接
             #print output
-            result.write(output + '\r\n')
+            if (len(output) > 0):
+                result.write(output)
             #result.write(output)
             line = source.readline()
         else:
